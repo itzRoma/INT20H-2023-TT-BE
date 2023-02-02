@@ -1,0 +1,16 @@
+version: "3.9" # or change to a version for your docker engine
+
+services:
+  int20h-2023-tt-db:
+    container_name: int20h-2023-tt-db
+    image: mysql
+    restart: always
+    environment:
+      - MYSQL_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=int20h_2023_tt
+    ports:
+      - target: 3306
+        published: 3307 # or change to an available one
+    volumes:
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
