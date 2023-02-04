@@ -6,6 +6,7 @@ import org.sevenorganization.int20h2023ttbe.exception.entity.EntityExistsExcepti
 import org.sevenorganization.int20h2023ttbe.exception.entity.EntityNotFoundException;
 import org.sevenorganization.int20h2023ttbe.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,22 +17,30 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public User createUser(User user) {
+    public User saveUser(User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new EntityExistsException("Email is already taken");
         }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
-    public List<User> readAllUsers() {
+    public List<User> findAllUsers() {
         return userRepository.findAll();
     }
 
-    public User readUserById(Long id) {
+    public User findUserById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> {
             throw EntityNotFoundException.withId(User.class, id);
+        });
+    }
+
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> {
+            throw new EntityExistsException("Email is already taken");
         });
     }
 

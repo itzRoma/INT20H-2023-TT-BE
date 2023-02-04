@@ -14,3 +14,13 @@ spring:
 
 the-meal-db:
   base-url: https://www.themealdb.com/api/json/v1/1
+
+app:
+  security:
+    jwt:
+      access:
+        secret: SECRET_KEY_FOR_ACCESS_TOKEN
+        expiration-ms: 900000 # 15 min
+      refresh:
+        secret: SECRET_KEY_FOR_REFRESH_TOKEN
+        expiration-ms: 1296000000 # 15 days
