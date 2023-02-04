@@ -12,3 +12,5 @@ spring:
       hibernate:
         format_sql: true
 
+the-meal-db:
+  base-url: https://www.themealdb.com/api/json/v1/1

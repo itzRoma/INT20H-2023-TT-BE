@@ -13,4 +13,10 @@ public class EntityNotFoundException extends RuntimeException {
     public static <T> EntityNotFoundException withId(Class<?> entityClass, T id) {
         return new EntityNotFoundException("%s with id '%s' not found".formatted(entityClass.getSimpleName(), id));
     }
+
+    public static EntityNotFoundException withField(Class<?> entityClass, String fieldName, String fieldValue) {
+        return new EntityNotFoundException(
+                "%s with %s '%s' not found".formatted(entityClass.getSimpleName(), fieldName, fieldValue)
+        );
+    }
 }
