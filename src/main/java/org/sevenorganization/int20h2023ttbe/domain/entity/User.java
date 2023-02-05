@@ -8,7 +8,9 @@ import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.sevenorganization.int20h2023ttbe.domain.Role;
 
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -37,6 +39,18 @@ public class User {
     private Role role = Role.USER;
 
     private Boolean enabled = true; // will be changed after implementing email verification
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_meals",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "meal_id", referencedColumnName = "localId"))
+    private Set<Meal> savedMeals = new LinkedHashSet<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_ingredients",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "ingredient_id", referencedColumnName = "localId"))
+    private Set<Ingredient> savedIngredients = new LinkedHashSet<>();
 
     public User(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;

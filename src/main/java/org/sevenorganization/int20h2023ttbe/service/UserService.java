@@ -1,6 +1,8 @@
 package org.sevenorganization.int20h2023ttbe.service;
 
 import lombok.RequiredArgsConstructor;
+import org.sevenorganization.int20h2023ttbe.domain.entity.Ingredient;
+import org.sevenorganization.int20h2023ttbe.domain.entity.Meal;
 import org.sevenorganization.int20h2023ttbe.domain.entity.User;
 import org.sevenorganization.int20h2023ttbe.exception.entity.EntityExistsException;
 import org.sevenorganization.int20h2023ttbe.exception.entity.EntityNotFoundException;
@@ -56,5 +58,33 @@ public class UserService {
     @Transactional
     public void deleteUser(User user) {
         userRepository.delete(user);
+    }
+
+    public void saveMeal(Meal meal, User user) {
+        if (!user.getSavedMeals().contains(meal)) {
+            user.getSavedMeals().add(meal);
+            userRepository.save(user);
+        }
+    }
+
+    public void deleteMeal(Meal meal, User user) {
+        if (user.getSavedMeals().contains(meal)) {
+            user.getSavedMeals().remove(meal);
+            userRepository.save(user);
+        }
+    }
+
+    public void saveIngredient(Ingredient ingredient, User user) {
+        if (!user.getSavedIngredients().contains(ingredient)) {
+            user.getSavedIngredients().add(ingredient);
+            userRepository.save(user);
+        }
+    }
+
+    public void deleteIngredient(Ingredient ingredient, User user) {
+        if (user.getSavedIngredients().contains(ingredient)) {
+            user.getSavedIngredients().remove(ingredient);
+            userRepository.save(user);
+        }
     }
 }
