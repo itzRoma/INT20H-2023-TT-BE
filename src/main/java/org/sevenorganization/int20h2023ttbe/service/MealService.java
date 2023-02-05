@@ -27,7 +27,7 @@ public class MealService {
                 .findAny().orElse(null);
     }
 
-    public List<MealDto> getMealByFirstLetter(String firstLetter) {
+    public List<MealDto> getMealsByFirstLetter(String firstLetter) {
         var response = mealFeignClient.getMealByFirstLetter(firstLetter).values().stream().toList();
         return mealHelper.retrieveMealsFromResponse(response);
     }
