@@ -35,9 +35,10 @@ public class WebSecurityConfig {
                 .cors().and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/*").permitAll()
-                .requestMatchers("/ingredients", "/ingredients/*", "/meals", "/meals/*").permitAll()
-                .anyRequest().authenticated().and()
+//                .requestMatchers("/auth/*").permitAll()
+//                .requestMatchers("/ingredients", "/ingredients/*", "/meals", "/meals/*").permitAll()
+//                .anyRequest().authenticated().and()
+                .anyRequest().permitAll().and() // to make development easier, will be replaced
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                 .accessDeniedHandler(jwtAccessDeniedHandler)
