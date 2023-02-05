@@ -12,4 +12,8 @@ import java.util.Map;
 public interface MealFeignClient {
     @GetMapping(value = "/lookup.php", produces = MediaType.APPLICATION_JSON_VALUE)
     Map<String, List<Map<String, String>>> getMealByExternalId(@RequestParam("i") Long externalId);
+
+    @GetMapping(value = "/search.php", produces = MediaType.APPLICATION_JSON_VALUE)
+    Map<String, List<Map<String, String>>> getMealByFirstLetter(@RequestParam("f") String firstLetter);
+
 }

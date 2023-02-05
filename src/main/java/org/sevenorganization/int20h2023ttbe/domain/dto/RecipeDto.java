@@ -1,9 +1,9 @@
 package org.sevenorganization.int20h2023ttbe.domain.dto;
 
-import java.util.Set;
+import java.util.List;
 
 public record RecipeDto(
-        Set<String> steps,
+        List<String> steps,
         int complexity
 ) {
 }
