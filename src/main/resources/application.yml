@@ -14,6 +14,9 @@ spring:
 
 the-meal-db:
   base-url: https://www.themealdb.com/api/json/v1/1
+  complexity:
+    easy: 7
+    medium: 10
 
 app:
   security:

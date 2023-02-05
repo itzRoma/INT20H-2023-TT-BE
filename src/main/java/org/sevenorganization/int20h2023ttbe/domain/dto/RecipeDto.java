@@ -4,6 +4,6 @@ import java.util.List;
 
 public record RecipeDto(
         List<String> steps,
-        int complexity
+        RecipeComplexity recipeComplexity
 ) {
 }
