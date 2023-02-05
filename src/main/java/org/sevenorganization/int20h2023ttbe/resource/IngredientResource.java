@@ -23,8 +23,18 @@ public class IngredientResource {
         return ResponseEntity.ok(ingredientService.getAllIngredients());
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/name/{name}")
     public ResponseEntity<IngredientDto> getIngredientByName(@PathVariable("name") String name) {
         return ResponseEntity.ok(ingredientService.getIngredientByName(name).get());
+    }
+
+    @GetMapping("/type/{type}")
+    public ResponseEntity<List<IngredientDto>> getIngredientsByType(@PathVariable("type") String type) {
+        return ResponseEntity.ok(ingredientService.getIngredientsByType(type));
+    }
+
+    @GetMapping("/types")
+    public ResponseEntity<List<String>> getAllIngredientsTypes() {
+        return ResponseEntity.ok(ingredientService.getAllIngredientsTypes());
     }
 }

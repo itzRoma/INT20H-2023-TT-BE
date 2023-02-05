@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -32,5 +33,19 @@ public class IngredientService {
         return getAllIngredients().stream()
                 .filter(ingredientDto -> ingredientDto.strIngredient().equalsIgnoreCase(name))
                 .findFirst();
+    }
+
+    public List<IngredientDto> getIngredientsByType(String type) {
+        return getAllIngredients().stream()
+                .filter(ingredientDto -> type.equalsIgnoreCase(ingredientDto.strType()))
+                .toList();
+    }
+
+    public List<String> getAllIngredientsTypes() {
+        return getAllIngredients().stream()
+                .map(IngredientDto::strType)
+                .filter(Objects::nonNull)
+                .distinct()
+                .toList();
     }
 }
