@@ -1,5 +1,7 @@
 package org.sevenorganization.int20h2023ttbe.resource;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.sevenorganization.int20h2023ttbe.domain.dto.AuthResponse;
 import org.sevenorganization.int20h2023ttbe.domain.dto.RefreshTokenRequest;
@@ -21,17 +23,35 @@ public class AuthResource {
     private final AuthService authService;
 
     @PostMapping("/sign-up")
-    public ResponseEntity<AuthResponse> signUn(@RequestBody SignUpRequest signUpRequest) {
+    @ApiOperation(
+            value = "Sign up",
+            notes = "By calling this endpoint new user account will be created and new pair of JWT tokens will be returned."
+    )
+    public ResponseEntity<AuthResponse> signUn(
+            @ApiParam(value = "Sign up info", name = "signUpRequest", type = "SignUpRequest", required = true)
+            @RequestBody SignUpRequest signUpRequest
+    ) {
         return new ResponseEntity<>(authService.signUp(signUpRequest), HttpStatus.CREATED);
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity<AuthResponse> signIn(@RequestBody SignInRequest signInRequest) {
+    @ApiOperation(value = "Sign in", notes = "By calling this endpoint new pair of JWT tokens will be returned.")
+    public ResponseEntity<AuthResponse> signIn(
+            @ApiParam(value = "Sign up info", name = "signInRequest", type = "SignInRequest", required = true)
+            @RequestBody SignInRequest signInRequest
+    ) {
         return new ResponseEntity<>(authService.signIn(signInRequest), HttpStatus.OK);
     }
 
     @PostMapping("/refresh-token")
-    public ResponseEntity<AuthResponse> refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
+    @ApiOperation(
+            value = "Refresh token",
+            notes = "By calling this endpoint a new JWT access token will be returned, as well as an old refresh one."
+    )
+    public ResponseEntity<AuthResponse> refreshToken(
+            @ApiParam(value = "Refresh token", name = "refreshTokenRequest", type = "RefreshTokenRequest", required = true)
+            @RequestBody RefreshTokenRequest refreshTokenRequest
+    ) {
         return new ResponseEntity<>(authService.refreshToken(refreshTokenRequest), HttpStatus.OK);
     }
 }

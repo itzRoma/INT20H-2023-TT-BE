@@ -1,5 +1,7 @@
 package org.sevenorganization.int20h2023ttbe.resource;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.sevenorganization.int20h2023ttbe.domain.dto.IngredientDto;
 import org.sevenorganization.int20h2023ttbe.domain.dto.MealDto;
@@ -25,19 +27,39 @@ public class MealResource {
     private final ProfileService profileService;
 
     @GetMapping("/id/{mealExternalId}")
-    public ResponseEntity<MealDto> getMealByExternalId(@PathVariable("mealExternalId") Long mealExternalId) {
+    @ApiOperation(
+            value = "Get meal by idMeal from TheMealDB API",
+            notes = "By calling this endpoint a meal with the provided id will be returned."
+    )
+    public ResponseEntity<MealDto> getMealByExternalId(
+            @ApiParam(value = "Meal id from TheMealDB API", name = "mealExternalId", type = "Long", required = true)
+            @PathVariable("mealExternalId") Long mealExternalId
+    ) {
         return ResponseEntity.ok(mealService.getMealByExternalId(mealExternalId));
     }
 
     @GetMapping("/letter/{firstLetter}")
-    public ResponseEntity<List<MealDto>> getMealsByFirstLetter(@PathVariable("firstLetter") String firstLetter) {
+    @ApiOperation(
+            value = "Get meal by first letter",
+            notes = "By calling this endpoint meals that starts with the provided letter will be returned."
+    )
+    public ResponseEntity<List<MealDto>> getMealsByFirstLetter(
+            @ApiParam(value = "First letter", name = "firstLetter", type = "String", required = true)
+            @PathVariable("firstLetter") String firstLetter
+    ) {
         return ResponseEntity.ok(mealService.getMealsByFirstLetter(firstLetter));
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/letter/{firstLetter}/available")
+    @ApiOperation(
+            value = "Get all the available meals for user's saved ingredients",
+            notes = "By calling this endpoint all the available meals for user's saved ingredients will be returned."
+    )
     public ResponseEntity<List<MealDto>> getAvailableMealsByFirstLetter(
-            @PathVariable("firstLetter") String firstLetter, Principal principal
+            @ApiParam(value = "First letter", name = "firstLetter", type = "String", required = true)
+            @PathVariable("firstLetter") String firstLetter,
+            Principal principal
     ) {
         List<MealDto> mealByFirstLetter = mealService.getMealsByFirstLetter(firstLetter);
         List<IngredientDto> usersIngredients = profileService.getSavedIngredients(principal.getName());

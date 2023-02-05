@@ -1,9 +1,9 @@
 package org.sevenorganization.int20h2023ttbe.security.filter;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.sevenorganization.int20h2023ttbe.security.service.JwtService;
 import org.sevenorganization.int20h2023ttbe.security.service.JwtUserDetailsService;
