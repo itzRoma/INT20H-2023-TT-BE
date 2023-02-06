@@ -5,8 +5,10 @@ import org.sevenorganization.int20h2023ttbe.security.exceptionhandling.JwtAccess
 import org.sevenorganization.int20h2023ttbe.security.exceptionhandling.JwtAuthenticationEntryPoint;
 import org.sevenorganization.int20h2023ttbe.security.filter.JwtAuthorizationFilter;
 import org.sevenorganization.int20h2023ttbe.security.service.JwtUserDetailsService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -17,6 +19,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -29,16 +33,16 @@ public class WebSecurityConfig {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtUserDetailsService jwtUserDetailsService;
 
+    @Value("${app.frontend.url}")
+    private String frontendAppUrl;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .cors().and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests()
-//                .requestMatchers("/auth/*").permitAll()
-//                .requestMatchers("/ingredients", "/ingredients/*", "/meals", "/meals/*").permitAll()
-//                .anyRequest().authenticated().and()
-                .anyRequest().permitAll().and() // to make development easier, will be replaced
+                .anyRequest().permitAll().and() // certain request secured with methodSecurity
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                 .accessDeniedHandler(jwtAccessDeniedHandler)
@@ -57,5 +61,23 @@ public class WebSecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins(frontendAppUrl)
+                        .allowedHeaders("*")
+                        .allowedMethods(
+                                HttpMethod.GET.name(),
+                                HttpMethod.POST.name(),
+                                HttpMethod.PUT.name(),
+                                HttpMethod.DELETE.name()
+                        );
+            }
+        };
     }
 }
