@@ -31,6 +31,7 @@ public class IngredientMeasureMealMapper implements MealMapper {
     }
 
     private boolean isIngredientMeasure(String key, Map.Entry<IngredientDto, String> entry) {
+        if (entry == null || entry.getValue() == null) return false;
         return entry.getValue().endsWith(key.substring(key.length() - 1));
     }
 
