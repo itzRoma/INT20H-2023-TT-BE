@@ -1,0 +1,33 @@
+server:
+  port: 5000
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${aws.rds.db-url}
+    username: ${aws.rds.db-username}
+    password: ${aws.rds.db-password}
+  jpa:
+    hibernate:
+      ddl-auto: create
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+the-meal-db:
+  base-url: ${the-meal-db.base-url}
+  complexity:
+    easy: ${the-meal-db.recipe-complexity.easy}
+    medium: ${the-meal-db.recipe-complexity.medium}
+
+app:
+  security:
+    jwt:
+      access:
+        secret: ${jwt.access.secret}
+        expiration-ms: ${jwt.access.expiration-ms}
+      refresh:
+        secret: ${jwt.refresh.secret}
+        expiration-ms: ${jwt.refresh.expiration-ms}
+  frontend:
+    url: ${frontend.url}

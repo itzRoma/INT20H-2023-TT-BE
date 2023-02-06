@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: '@spring.profiles.active@'
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3307/int20h_2023_tt # local url provided by docker container
