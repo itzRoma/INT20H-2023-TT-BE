@@ -30,3 +30,5 @@ app:
       refresh:
         secret: SECRET_KEY_FOR_REFRESH_TOKEN
         expiration-ms: 1296000000 # 15 days
+  frontend:
+    url: http://localhost:3000
