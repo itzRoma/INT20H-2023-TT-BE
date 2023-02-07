@@ -16,10 +16,14 @@ public class RecipeMealMapper implements MealMapper {
     private static final String REGEX = "\r\n";
     private final int easyComplexity;
     private final int mediumComplexity;
+
     @Override
     public void mapAttrKey(String key, String value, MealDto mealDto) {
         if (nonNull(value)) {
-            var steps = Arrays.stream(value.split(REGEX)).toList();
+            var steps = Arrays.stream(value.split(REGEX))
+                    .filter(step -> !step.isBlank())
+                    .map(String::strip)
+                    .toList();
             mealDto.setRecipe(new RecipeDto(steps, defineRecipeComplexity(steps.size())));
         }
     }
