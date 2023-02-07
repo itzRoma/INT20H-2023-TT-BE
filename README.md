@@ -45,3 +45,6 @@ cd frontend & npm run start
 ```
 
 4. Open link in you browser http://localhost:3000/
+
+## Backend endpoints documentation
+Launch BE server and open http://localhost:8080/swagger-ui.html
