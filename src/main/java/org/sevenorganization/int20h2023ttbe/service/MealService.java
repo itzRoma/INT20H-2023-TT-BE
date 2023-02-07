@@ -23,12 +23,16 @@ public class MealService {
 
     public MealDto getMealByExternalId(Long externalId) {
         var response = mealFeignClient.getMealByExternalId(externalId).values().stream().toList();
-        return mealHelper.retrieveMealsFromResponse(response).stream()
-                .findAny().orElse(null);
+        return mealHelper.retrieveMealsFromResponse(response).stream().findAny().orElse(null);
     }
 
     public List<MealDto> getMealsByFirstLetter(String firstLetter) {
         var response = mealFeignClient.getMealByFirstLetter(firstLetter).values().stream().toList();
+        return mealHelper.retrieveMealsFromResponse(response);
+    }
+
+    public List<MealDto> getMealsByName(String name) {
+        var response = mealFeignClient.getMealsByName(name).values().stream().toList();
         return mealHelper.retrieveMealsFromResponse(response);
     }
 

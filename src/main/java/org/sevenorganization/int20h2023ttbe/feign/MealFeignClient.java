@@ -16,4 +16,6 @@ public interface MealFeignClient {
     @GetMapping(value = "/search.php", produces = MediaType.APPLICATION_JSON_VALUE)
     Map<String, List<Map<String, String>>> getMealByFirstLetter(@RequestParam("f") String firstLetter);
 
+    @GetMapping(value = "/search.php", produces = MediaType.APPLICATION_JSON_VALUE)
+    Map<String, List<Map<String, String>>> getMealsByName(@RequestParam("s") String name);
 }

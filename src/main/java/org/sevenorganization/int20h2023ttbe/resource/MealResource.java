@@ -70,4 +70,16 @@ public class MealResource {
 
         return ResponseEntity.ok(availableMeals);
     }
+
+    @GetMapping("/name/{name}")
+    @ApiOperation(
+            value = "Get meals by name",
+            notes = "By calling this endpoint meals that contains the provided name will be returned."
+    )
+    public ResponseEntity<List<MealDto>> getMealsByName(
+            @ApiParam(value = "Name", name = "name", type = "String", required = true)
+            @PathVariable("name") String name
+    ) {
+        return ResponseEntity.ok(mealService.getMealsByName(name));
+    }
 }
