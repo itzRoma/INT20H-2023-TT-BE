@@ -74,4 +74,8 @@ public class IngredientService {
             throw EntityNotFoundException.withField(Ingredient.class, "externalId", externalId.toString());
         });
     }
+
+    public boolean existsByExternalIdInDB(Long externalId) {
+        return ingredientRepository.existsByExternalId(externalId);
+    }
 }

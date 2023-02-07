@@ -44,4 +44,8 @@ public class MealService {
             throw EntityNotFoundException.withField(Meal.class, "externalId", externalId.toString());
         });
     }
+
+    public boolean existsByExternalIdInDB(Long externalId) {
+        return mealRepository.existsByExternalId(externalId);
+    }
 }

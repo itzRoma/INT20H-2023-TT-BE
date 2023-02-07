@@ -20,6 +20,8 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MealService mealService;
+    private final IngredientService ingredientService;
 
     @Transactional
     public User saveUser(User user) {
@@ -61,30 +63,28 @@ public class UserService {
     }
 
     public void saveMeal(Meal meal, User user) {
-        if (!user.getSavedMeals().contains(meal)) {
-            user.getSavedMeals().add(meal);
-            userRepository.save(user);
-        }
+        Meal toAdd = mealService.existsByExternalIdInDB(meal.getExternalId())
+                ? mealService.findMealByExternalIdFromDB(meal.getExternalId())
+                : meal;
+        user.getSavedMeals().add(toAdd);
+        userRepository.save(user);
     }
 
     public void deleteMeal(Meal meal, User user) {
-        if (user.getSavedMeals().contains(meal)) {
-            user.getSavedMeals().remove(meal);
-            userRepository.save(user);
-        }
+        user.getSavedMeals().remove(meal);
+        userRepository.save(user);
     }
 
     public void saveIngredient(Ingredient ingredient, User user) {
-        if (!user.getSavedIngredients().contains(ingredient)) {
-            user.getSavedIngredients().add(ingredient);
-            userRepository.save(user);
-        }
+        Ingredient toAdd = ingredientService.existsByExternalIdInDB(ingredient.getExternalId())
+                ? ingredientService.findIngredientByExternalIdFromDB(ingredient.getExternalId())
+                : ingredient;
+        user.getSavedIngredients().add(toAdd);
+        userRepository.save(user);
     }
 
     public void deleteIngredient(Ingredient ingredient, User user) {
-        if (user.getSavedIngredients().contains(ingredient)) {
-            user.getSavedIngredients().remove(ingredient);
-            userRepository.save(user);
-        }
+        user.getSavedIngredients().remove(ingredient);
+        userRepository.save(user);
     }
 }
