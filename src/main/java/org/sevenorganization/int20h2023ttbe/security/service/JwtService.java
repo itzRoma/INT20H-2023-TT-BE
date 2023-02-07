@@ -6,7 +6,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.sevenorganization.int20h2023ttbe.domain.entity.RefreshToken;
 import org.sevenorganization.int20h2023ttbe.domain.entity.User;
@@ -19,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @Slf4j
@@ -63,6 +63,7 @@ public class JwtService {
                 .withIssuer(request.getRequestURL().toString())
                 .withSubject(jwtUserDetails.getUsername())
                 .withClaim("roles", jwtUserDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
+                .withClaim("userId", userRepository.findByEmail(jwtUserDetails.getUsername()).get().getId())
                 .withIssuedAt(new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + accessTokenExpirationMs))
                 .sign(accessTokenAlgorithm);
