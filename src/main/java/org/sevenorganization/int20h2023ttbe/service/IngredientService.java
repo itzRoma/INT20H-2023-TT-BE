@@ -45,6 +45,12 @@ public class IngredientService {
                 .toList();
     }
 
+    public List<IngredientDto> getIngredientsByTypeAndName(String type, String name) {
+        return getIngredientsByType(type).stream()
+                .filter(ingredientDto -> ingredientNameContains(name, ingredientDto))
+                .toList();
+    }
+
     public List<String> getAllIngredientsTypes() {
         return getAllIngredients().stream()
                 .map(IngredientDto::strType)
@@ -77,5 +83,15 @@ public class IngredientService {
 
     public boolean existsByExternalIdInDB(Long externalId) {
         return ingredientRepository.existsByExternalId(externalId);
+    }
+
+    public List<IngredientDto> getIngredientByNameContaining(String name) {
+        return getAllIngredients().stream()
+                .filter(ingredientDto -> ingredientNameContains(name, ingredientDto))
+                .toList();
+    }
+
+    private static boolean ingredientNameContains(String name, IngredientDto ingredientDto) {
+        return ingredientDto.strIngredient().toLowerCase().contains(name.toLowerCase());
     }
 }

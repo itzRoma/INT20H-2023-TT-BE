@@ -38,6 +38,18 @@ public class IngredientResource {
         return ResponseEntity.ok(ingredientService.getIngredientByName(name).get());
     }
 
+    @GetMapping("/c-name/{name}")
+    @ApiOperation(
+            value = "Get ingredients by name containing",
+            notes = "By calling this endpoint an ingredient that name contains the provided name will be returned."
+    )
+    public ResponseEntity<List<IngredientDto>> getIngredientsByNameContaining(
+            @ApiParam(value = "Ingredient name", name = "name", type = "String", required = true)
+            @PathVariable("name") String name
+    ) {
+        return ResponseEntity.ok(ingredientService.getIngredientByNameContaining(name));
+    }
+
     @GetMapping("/type/{type}")
     @ApiOperation(
             value = "Get ingredient by type",
@@ -48,6 +60,21 @@ public class IngredientResource {
             @PathVariable("type") String type
     ) {
         return ResponseEntity.ok(ingredientService.getIngredientsByType(type));
+    }
+
+
+    @GetMapping("/type/{type}/name/{name}")
+    @ApiOperation(
+            value = "Get ingredient by type and name",
+            notes = "By calling this endpoint an ingredient that matches the provided type and name will be returned."
+    )
+    public ResponseEntity<List<IngredientDto>> getIngredientsByTypeAndName(
+            @ApiParam(value = "Ingredient type", name = "type", type = "String", required = true)
+            @PathVariable("type") String type,
+            @ApiParam(value = "Ingredient name", name = "name", type = "String", required = true)
+            @PathVariable("name") String name
+    ) {
+        return ResponseEntity.ok(ingredientService.getIngredientsByTypeAndName(type, name));
     }
 
     @GetMapping("/types")
