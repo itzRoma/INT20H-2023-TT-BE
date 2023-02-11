@@ -11,7 +11,6 @@
 ## Requirements to run project locally:
 - Node.js 16.x
 - Typescript 3.4.5
-- Java 17.x
 - Docker
 
 ## Installation steps
@@ -26,7 +25,6 @@ git clone https://github.com/sevenorganization/INT20H-2023-TT-BE
 cd INT20H-2023-TT-BE & docker-compose up -d
 ```
 
-3. Run the project from your IDE (it is preferably using IntelliJ IDEA)
 ##
 **Frontend:**
 1. Clone FE project https://github.com/sevenorganization/INT20H-2023-TT-FE

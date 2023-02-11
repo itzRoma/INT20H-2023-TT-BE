@@ -3,8 +3,8 @@ version: "3.9" # or change to a version for your docker engine
 services:
   int20h-2023-tt-db:
     container_name: int20h-2023-tt-db
-    image: mysql
-    restart: always
+    image: mysql:latest
+    restart: unless-stopped
     environment:
       - MYSQL_PASSWORD=root
       - MYSQL_ROOT_PASSWORD=root
@@ -14,3 +14,24 @@ services:
         published: 3307 # or change to an available one
     volumes:
       - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - int20h-2023-tt-nw
+
+  int20h-2023-tt-api:
+    container_name: int20h-2023-tt-api
+    build: ../
+    restart: unless-stopped
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://int20h-2023-tt-db:3306/int20h_2023_tt
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_DRIVERCLASSNAME=com.mysql.cj.jdbc.Driver
+    ports:
+      - "8080:8080"
+    depends_on:
+      - int20h-2023-tt-db
+    networks:
+      - int20h-2023-tt-nw
+
+networks:
+  int20h-2023-tt-nw:
